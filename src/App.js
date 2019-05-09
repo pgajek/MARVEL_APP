@@ -1,21 +1,42 @@
 import React from "react";
 import "./App.css";
-const charactersURL =
-  "https://gateway.marvel.com/v1/public/events/29/characters?apikey=7fdc3b3b1bb5e7cf21e75d9f18527565";
+import Character from './components/Character/Character';
+const publicKey = "7fdc3b3b1bb5e7cf21e75d9f18527565";
+const charactersURL = `http://gateway.marvel.com/v1/public/events/29/characters?limit=58&ts=1&apikey=${publicKey}&hash=72402047ce00fbd113138a43ff0c86ad`;
 
 class App extends React.Component {
-  state = {};
-  componentDidMount() {
-    fetch(charactersURL)
+  state = {
+    characters: null
+  };
+  handleDataFetch = () => {
+    const characters = fetch(charactersURL, { method: "GET" })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          characters: data.data.results
+        });
       });
   }
+
   render() {
+    const preCharacters = this.state.characters;
+    let characters;
+    if (this.state.characters !== null) {
+
+      characters = preCharacters.map(character => (
+        <Character
+          key={character.id}
+          thumbnail={character.thumbnail}
+          name={character.name}
+          description={character.description}
+        />
+      ));
+    }
+
     return (
-      <div className="app">
-        <h1>Kupa na bahamach</h1>
+      <div>
+        <button onClick={this.handleDataFetch}>characters </button>
+        {preCharacters ? characters : ''}
       </div>
     );
   }
