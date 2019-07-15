@@ -19,6 +19,7 @@ const StyledWrapper = styled.div`
   margin: 2vh 0 5vh 50%;
   transform: translateX(-50%);
   animation: ${({ animate }) => (animate ? snap : 'none')} 2.5s steps(48);
+  cursor: pointer;
 `;
 
 const ThanosGauntlet = ({ click, animate }) => <StyledWrapper animate={animate} onClick={click} />;
