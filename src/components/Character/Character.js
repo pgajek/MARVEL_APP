@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import colors from 'Themes/Colors';
 import PropTypes from 'prop-types';
 
@@ -23,7 +23,8 @@ const StyledWrapper = styled.div`
   color: ${colors.avengers};
   margin: 10px;
   position: relative;
-  filter: ${({ dead }) => (dead ? 'grayscale(80%);' : 'grayscale(0)')};
+  filter: ${({ dead }) => (dead ? 'grayscale(100%);' : 'grayscale(0)')};
+  transition: filter 5s;
 `;
 const ImgWrapper = styled.div`
   height: 100px;
@@ -43,6 +44,7 @@ const ImgWrapper = styled.div`
     border: 5px transparent solid;
     border-top: 4px ${colors.avengers} solid;
     border-radius: 50%;
+    transition: 2s;
     animation: 5s ${rotateAround} linear infinite reverse;
   }
   &::before {
@@ -56,8 +58,19 @@ const ImgWrapper = styled.div`
     border: 5px transparent solid;
     border-bottom: 4px ${colors.avengers} solid;
     border-radius: 50%;
+    transition: 2s;
     animation: 4s ${rotateAround} linear infinite;
   }
+  ${({ dead }) =>
+    dead &&
+    css`
+      &::after {
+        animation-play-state: paused;
+      }
+      &::before {
+        animation-play-state: paused;
+      }
+    `};
 `;
 const StyledImg = styled.img`
   border-radius: 50%;
@@ -70,10 +83,10 @@ const TextWrapper = styled.div`
   text-transform: uppercase;
   font-size: 0.8em;
 `;
-const Character = ({ img, name }) => (
-  <StyledWrapper>
-    <ImgWrapper>
-      <StyledImg src={img} data-test="character-img" />
+const Character = ({ img, name, dead }) => (
+  <StyledWrapper dead={dead}>
+    <ImgWrapper dead={dead}>
+      <StyledImg src={img} />
     </ImgWrapper>
     <TextWrapper>
       <h2>{name}</h2>
@@ -85,4 +98,7 @@ Character.propTypes = {
   name: PropTypes.string.isRequired,
   img: PropTypes.string.isRequired,
 };
+
+Character.displayName = 'CharacterComponent';
+StyledImg.displayName = 'StyledImg';
 export default Character;

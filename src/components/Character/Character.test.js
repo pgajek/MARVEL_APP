@@ -24,5 +24,5 @@ it('it renders without crashing', () => {
 
 it('renders just one image', () => {
   const component = setup();
-  expect(component.find('[data-test="character-img"]').length).toBe(1);
+  expect(component.find('StyledImg').length).toBe(1);
 });
