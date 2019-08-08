@@ -12,7 +12,7 @@ to{
     }
 `;
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.button`
   height: 80px;
   width: 80px;
   background: url(${Gauntlet}) 0px 0px;
@@ -20,11 +20,19 @@ const StyledWrapper = styled.div`
   transform: translateX(-50%);
   animation: ${({ animate }) => (animate ? snap : 'none')} 2.5s steps(48);
   cursor: pointer;
+  border: none;
+  :focus {
+    outline: none;
+  }
 `;
 
 const ThanosGauntlet = ({ click, animate }) => <StyledWrapper animate={animate} onClick={click} />;
+
 ThanosGauntlet.propTypes = {
   click: PropTypes.func.isRequired,
   animate: PropTypes.bool.isRequired,
 };
+
+ThanosGauntlet.displayName = 'ThanosGauntlet';
+
 export default ThanosGauntlet;

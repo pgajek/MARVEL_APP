@@ -19,5 +19,15 @@ it('renders withour crashing', () => {
 });
 
 it('does not throw error with expected props', () => {
-  checkProps(ThanosGauntlet, defaultProps);
+  expect(checkProps(ThanosGauntlet, defaultProps)).toBeUndefined();
+});
+
+it('it changing props properly if clicked', () => {
+  let bool = false;
+  const wrapper = setup({
+    click: () => (bool = true),
+    animate: false,
+  });
+  wrapper.dive().simulate('click');
+  expect(bool).toBe(true);
 });
