@@ -18,49 +18,88 @@ class App extends React.Component {
   }
 
   handleDataFetch = () => {
-    // if (localStorage.characterData) {
-    //   this.setState({
-    //     characters: Promise.resolve(JSON.parse(localStorage.characterData)),
-    //   });
-    // }
+    if (localStorage.getItem('charactersData')) {
+      console.log(localStorage.getItem('charactersData'));
+      this.setState({
+        characters: JSON.parse(localStorage.getItem('charactersData')),
+      });
+    }
     fetch(charactersURL, { method: 'GET' })
       .then(response => response.json())
       .then(data => {
+        const mappedCharacters = data.data.results;
+        mappedCharacters.forEach(char => (char.dead = false));
+        localStorage.setItem('charactersData', JSON.stringify(mappedCharacters));
         console.log(data.data.results);
-        localStorage.charactersData = JSON.stringify(data.data.results);
         this.setState({
-          characters: data.data.results,
+          characters: mappedCharacters,
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log('something gone wrong:  ', err));
+  };
+
+  killCharacter = deadQuantity => {
+    const { characters } = this.state;
+    if (deadQuantity > 0) {
+      const index = Math.floor(Math.random() * characters.length);
+      const chosenOne = characters[index];
+      chosenOne.dead = true;
+      this.setState({
+        characters,
+      });
+      setTimeout(() => {
+        this.killCharacter(deadQuantity - 1);
+      }, 1000);
+    } else {
+      this.setState({
+        animate: false,
+      });
+    }
+  };
+
+  halfTheCharacters = () => {
+    const alive = this.state.characters.filter(character => character.dead === false);
+    const deadQuantity = Math.floor(alive.length / 2);
+
+    setTimeout(() => {
+      this.killCharacter(deadQuantity);
+    }, 1000);
   };
 
   handleGauntletClick = () => {
     const { animate } = this.state;
-    if (!animate) this.snapSound.play();
-    this.setState(prevState => ({
-      animate: !prevState.animate,
-    }));
+    if (!animate) {
+      // this.snapSound.play();
+      this.setState(prevState => ({
+        ...prevState,
+        animate: !prevState.animate,
+      }));
+      this.halfTheCharacters();
+    }
   };
 
   render() {
     const { animate, characters } = this.state;
     const charactersNew = characters.map(character => {
-      const characterName = character.name.replace(/\(.*\)/, '');
-      return (
-        <Character
-          name={characterName}
-          key={character.id}
-          img={`${character.thumbnail.path}/standard_medium.${character.thumbnail.extension}`}
-        />
-      );
+      if (character.id !== 1009726 && character.id !== 1009165 && character.id !== 1009299) {
+        const characterName = character.name.replace(/\(.*\)/, '');
+        return (
+          <Character
+            name={characterName}
+            key={character.id}
+            img={`${character.thumbnail.path}/standard_medium.${character.thumbnail.extension}`}
+            dead={character.dead}
+            data-test="character-component"
+          />
+        );
+      }
     });
     return (
-      <div>
+      <>
         <GlobalStyles />
         <ThanosGauntlet click={this.handleGauntletClick} animate={animate} />
         <CharactersWrapper>{charactersNew}</CharactersWrapper>
-      </div>
+      </>
     );
   }
 }
