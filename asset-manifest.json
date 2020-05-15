@@ -1,0 +1,13 @@
+{
+  "main.js": "/MARVEL_APP/static/js/main.9eba2f7d.chunk.js",
+  "main.js.map": "/MARVEL_APP/static/js/main.9eba2f7d.chunk.js.map",
+  "runtime~main.js": "/MARVEL_APP/static/js/runtime~main.576f9613.js",
+  "runtime~main.js.map": "/MARVEL_APP/static/js/runtime~main.576f9613.js.map",
+  "static/js/2.5a5bc9dd.chunk.js": "/MARVEL_APP/static/js/2.5a5bc9dd.chunk.js",
+  "static/js/2.5a5bc9dd.chunk.js.map": "/MARVEL_APP/static/js/2.5a5bc9dd.chunk.js.map",
+  "index.html": "/MARVEL_APP/index.html",
+  "precache-manifest.8d8ed6d21855923d5769b58ef9ff0df1.js": "/MARVEL_APP/precache-manifest.8d8ed6d21855923d5769b58ef9ff0df1.js",
+  "service-worker.js": "/MARVEL_APP/service-worker.js",
+  "static/media/thanos_snap.png": "/MARVEL_APP/static/media/thanos_snap.3a36d79c.png",
+  "static/media/thanos_snap_sound.mp3": "/MARVEL_APP/static/media/thanos_snap_sound.b746c7d7.mp3"
+}
